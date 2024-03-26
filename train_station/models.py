@@ -46,7 +46,7 @@ class Train(models.Model):
     cargo_num = models.PositiveIntegerField()
     places_in_cargo = models.PositiveIntegerField()
     train_type = models.ForeignKey(
-        TrainType, on_delete=models.CASCADE, related_name="trains_type"
+        TrainType, on_delete=models.CASCADE, related_name="trains"
     )
 
     class Meta:
@@ -75,3 +75,21 @@ class Crew(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class Trip(models.Model):
+    crew = models.ManyToManyField(Crew)
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="trips")
+    train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="trips")
+    departute_time = models.DateTimeField()
+    arrival_time = models.DateTimeField()
+
+    class Meta:
+        ordering = ["-departute_time"]
+
+    def __str__(self):
+        return (
+            f"Trip {self.route.source} - {self.route.destination}, "
+            f" train number — {self.train.name}, "
+            f"[{self.departute_time} - {self.arrival_time}]"
+        )
