@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "debug_toolbar",
+    "train_station",
+    "user",
 ]
 
 INTERNAL_IPS = [
