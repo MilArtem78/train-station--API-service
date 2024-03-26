@@ -39,3 +39,23 @@ class TrainType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Train(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    cargo_num = models.PositiveIntegerField()
+    places_in_cargo = models.PositiveIntegerField()
+    train_type = models.ForeignKey(
+        TrainType, on_delete=models.CASCADE, related_name="trains_type"
+    )
+
+    class Meta:
+        ordering = ["name"]
+
+    @property
+    def capacity(self) -> int:
+        return self.cargo_num * self.places_in_cargo
+
+    def __str__(self):
+        return self.name
+
