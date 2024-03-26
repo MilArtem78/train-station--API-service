@@ -26,6 +26,15 @@ class CrewSerializer(serializers.ModelSerializer):
 
 
 class RouteSerializer(serializers.ModelSerializer):
+    def validate(self, attrs):
+        data = super(RouteSerializer, self).validate(attrs)
+        Route.validate_route(
+            attrs["source"],
+            attrs["destination"],
+            serializers.ValidationError
+        )
+        return data
+
     class Meta:
         model = Route
         fields = ("id", "source", "destination", "distance")

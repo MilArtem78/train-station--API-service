@@ -28,6 +28,24 @@ class Route(models.Model):
     )
     distance = models.PositiveIntegerField()
 
+    @staticmethod
+    def validate_route(source, destination, error_to_raise):
+        if source == destination:
+            raise error_to_raise(
+                {"source_destination": (
+                    f"Source({source}) and destination({destination})"
+                    f" cannot be the same."
+                )
+                }
+            )
+
+    def clean(self):
+        Route.validate_route(self.source, self.destination, ValidationError)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
     class Meta:
         unique_together = ["source", "destination"]
         ordering = ["source"]
