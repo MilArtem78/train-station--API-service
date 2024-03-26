@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -15,10 +16,14 @@ class Station(models.Model):
 
 class Route(models.Model):
     source = models.ForeignKey(
-        Station, on_delete=models.CASCADE, related_name="source_routes"
+        Station,
+        on_delete=models.CASCADE,
+        related_name="source_routes"
     )
     destination = models.ForeignKey(
-        Station, on_delete=models.CASCADE, related_name="destination_routes"
+        Station,
+        on_delete=models.CASCADE,
+        related_name="destination_routes"
     )
     distance = models.PositiveIntegerField()
 
@@ -46,7 +51,9 @@ class Train(models.Model):
     cargo_num = models.PositiveIntegerField()
     places_in_cargo = models.PositiveIntegerField()
     train_type = models.ForeignKey(
-        TrainType, on_delete=models.CASCADE, related_name="trains"
+        TrainType,
+        on_delete=models.CASCADE,
+        related_name="trains"
     )
 
     class Meta:
@@ -79,8 +86,16 @@ class Crew(models.Model):
 
 class Trip(models.Model):
     crew = models.ManyToManyField(Crew)
-    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="trips")
-    train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="trips")
+    route = models.ForeignKey(
+        Route,
+        on_delete=models.CASCADE,
+        related_name="trips"
+    )
+    train = models.ForeignKey(
+        Train,
+        on_delete=models.CASCADE,
+        related_name="trips"
+    )
     departute_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
 
@@ -93,3 +108,18 @@ class Trip(models.Model):
             f" train number — {self.train.name}, "
             f"[{self.departute_time} - {self.arrival_time}]"
         )
+
+
+class Order(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="orders"
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return str(self.created_at)
