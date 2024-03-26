@@ -59,3 +59,19 @@ class Train(models.Model):
     def __str__(self):
         return self.name
 
+
+class Crew(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ["first_name", "last_name"]
+        verbose_name = "Crew member"
+        verbose_name_plural = "Crew members"
+
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
