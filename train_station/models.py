@@ -115,17 +115,17 @@ class Trip(models.Model):
         on_delete=models.CASCADE,
         related_name="trips"
     )
-    departute_time = models.DateTimeField()
+    departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
 
     class Meta:
-        ordering = ["-departute_time"]
+        ordering = ["-departure_time"]
 
     def __str__(self):
         return (
             f"Trip {self.route.source} - {self.route.destination}, "
             f" train number — {self.train.name}, "
-            f"[{self.departute_time} - {self.arrival_time}]"
+            f"[{self.departure_time} - {self.arrival_time}]"
         )
 
 
