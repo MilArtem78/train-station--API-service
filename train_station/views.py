@@ -1,4 +1,5 @@
-from rest_framework import mixins
+from django.db.models import Count, F
+from rest_framework import mixins, viewsets
 from rest_framework.viewsets import GenericViewSet
 
 from train_station.models import (
@@ -6,7 +7,8 @@ from train_station.models import (
     Station,
     Crew,
     Route,
-    Train
+    Train,
+    Trip
 )
 from train_station.serializers import (
     TrainTypeSerializer,
@@ -16,7 +18,10 @@ from train_station.serializers import (
     RouteListSerializer,
     TrainSerializer,
     TrainListSerializer,
-    TrainDetailSerializer
+    TrainDetailSerializer,
+    TripSerializer,
+    TripListSerializer,
+    TripDetailSerializer
 )
 
 
@@ -95,3 +100,34 @@ class TrainViewSet(
         if name:
             queryset = queryset.filter(name__icontains=name)
         return queryset
+
+
+class TripViewSet(viewsets.ModelViewSet):
+    queryset = Trip.objects.all()
+    serializer_class = TripSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        if self.action == "list":
+            queryset = (
+                queryset.select_related(
+                    "train__train_type",
+                    "route__source",
+                    "route__destination"
+                ).prefetch_related(
+                    "crew").annotate(
+                    tickets_available=(
+                            F("train__cargo_num")
+                            * F("train__places_in_cargo")
+                            - Count("tickets")
+                    )
+                )
+            )
+        return queryset
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return TripListSerializer
+        if self.action == "retrieve":
+            return TripDetailSerializer
+        return TripSerializer
