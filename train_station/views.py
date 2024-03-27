@@ -1,8 +1,9 @@
 from django.db.models import Count, F, Q
 from rest_framework import mixins, viewsets, status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -15,6 +16,7 @@ from train_station.models import (
     Trip,
     Order
 )
+from train_station.permissions import IsAdminAllORIsAuthenticatedReadOnly
 from train_station.serializers import (
     TrainTypeSerializer,
     StationSerializer,
@@ -40,6 +42,8 @@ class TrainTypeViewSet(
 ):
     queryset = TrainType.objects.all()
     serializer_class = TrainTypeSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
 
 class StationViewSet(
@@ -49,6 +53,8 @@ class StationViewSet(
 ):
     queryset = Station.objects.all()
     serializer_class = StationSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
 
 class CrewViewSet(
@@ -59,6 +65,8 @@ class CrewViewSet(
 ):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action == "upload_image":
@@ -91,6 +99,8 @@ class RouteViewSet(
         "source", "destination"
     )
     serializer_class = RouteSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -107,6 +117,8 @@ class TrainViewSet(
 ):
     queryset = Train.objects.select_related("train_type")
     serializer_class = TrainSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -146,6 +158,8 @@ class TripViewSet(viewsets.ModelViewSet):
         )
     )
     serializer_class = TripSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_queryset(self):
         queryset = self.queryset
@@ -188,6 +202,8 @@ class OrderViewSet(
     )
     serializer_class = OrderSerializer
     pagination_class = OrderPagination
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         queryset = self.queryset.filter(user=self.request.user)
