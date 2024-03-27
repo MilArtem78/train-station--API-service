@@ -112,6 +112,7 @@ class TripListSerializer(TripSerializer):
             "id",
             "crew",
             "route",
+            "departure_time",
             "train_name",
             "train_type",
             "train_cargo_num",

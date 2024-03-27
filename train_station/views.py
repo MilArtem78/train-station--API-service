@@ -1,4 +1,4 @@
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from rest_framework import mixins, viewsets
 from rest_framework.viewsets import GenericViewSet
 
@@ -103,25 +103,33 @@ class TrainViewSet(
 
 
 class TripViewSet(viewsets.ModelViewSet):
-    queryset = Trip.objects.all()
+    queryset = Trip.objects.select_related(
+        "train__train_type",
+        "route__source",
+        "route__destination"
+    ).prefetch_related(
+        "crew"
+    ).annotate(
+        tickets_available=(
+                F("train__cargo_num")
+                * F("train__places_in_cargo")
+                - Count("tickets")
+        )
+    )
     serializer_class = TripSerializer
 
     def get_queryset(self):
         queryset = self.queryset
-        if self.action == "list":
-            queryset = (
-                queryset.select_related(
-                    "train__train_type",
-                    "route__source",
-                    "route__destination"
-                ).prefetch_related(
-                    "crew").annotate(
-                    tickets_available=(
-                            F("train__cargo_num")
-                            * F("train__places_in_cargo")
-                            - Count("tickets")
-                    )
-                )
+        departure_date = self.request.query_params.get("departure_date")
+        route = self.request.query_params.get("route")
+        if departure_date:
+            queryset = queryset.filter(
+                departure_time__date=departure_date
+            )
+        if route:
+            queryset = queryset.filter(
+                Q(route__source__name__icontains=route) |
+                Q(route__destination__name__icontains=route)
             )
         return queryset
 
