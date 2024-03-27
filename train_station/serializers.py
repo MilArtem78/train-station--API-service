@@ -5,7 +5,9 @@ from train_station.models import (
     Station,
     Crew,
     Route,
-    Train
+    Train,
+    Trip,
+    Ticket
 )
 
 
@@ -75,3 +77,44 @@ class TrainListSerializer(TrainSerializer):
 
 class TrainDetailSerializer(TrainListSerializer):
     train_type = TrainTypeSerializer(read_only=True)
+
+
+class TripSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trip
+        fields = "__all__"
+
+
+class TripListSerializer(TripSerializer):
+    crew = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field="full_name"
+    )
+    route = serializers.StringRelatedField()
+    train_name = serializers.CharField(
+        read_only=True, source="train.name"
+    )
+    train_type = serializers.CharField(
+        read_only=True, source="train.train_type.name"
+    )
+    train_cargo_num = serializers.IntegerField(
+        read_only=True, source="train.cargo_num"
+    )
+    train_capacity = serializers.IntegerField(
+        read_only=True, source="train.capacity"
+    )
+    tickets_available = serializers.IntegerField(
+        read_only=True,
+    )
+
+    class Meta:
+        model = Trip
+        fields = (
+            "id",
+            "crew",
+            "route",
+            "train_name",
+            "train_type",
+            "train_cargo_num",
+            "train_capacity",
+            "tickets_available"
+        )
