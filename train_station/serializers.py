@@ -3,7 +3,9 @@ from rest_framework import serializers
 from train_station.models import (
     TrainType,
     Station,
-    Crew, Route
+    Crew,
+    Route,
+    Train
 )
 
 
@@ -47,3 +49,29 @@ class RouteListSerializer(RouteSerializer):
     destination = serializers.SlugRelatedField(
         read_only=True, slug_field="name"
     )
+
+
+class TrainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Train
+        fields = ("id", "name", "cargo_num", "places_in_cargo", "train_type")
+
+
+class TrainListSerializer(TrainSerializer):
+    train_type = serializers.SlugRelatedField(
+        read_only=True, slug_field="name"
+    )
+
+    class Meta:
+        model = Train
+        fields = (
+            "id",
+            "name",
+            "cargo_num",
+            "places_in_cargo",
+            "capacity",
+            "train_type")
+
+
+class TrainDetailSerializer(TrainListSerializer):
+    train_type = TrainTypeSerializer(read_only=True)
