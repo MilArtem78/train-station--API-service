@@ -1,6 +1,7 @@
 from django.db.models import Count, F, Q
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -169,6 +170,11 @@ class TripViewSet(viewsets.ModelViewSet):
         return TripSerializer
 
 
+class OrderPagination(PageNumberPagination):
+    page_size = 1
+    max_page_size = 100
+
+
 class OrderViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
@@ -181,6 +187,7 @@ class OrderViewSet(
         "tickets__trip__crew",
     )
     serializer_class = OrderSerializer
+    pagination_class = OrderPagination
 
     def get_queryset(self):
         queryset = self.queryset.filter(user=self.request.user)
