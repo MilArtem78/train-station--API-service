@@ -42,7 +42,6 @@ class TrainTypeViewSet(
 ):
     queryset = TrainType.objects.all()
     serializer_class = TrainTypeSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
 
@@ -53,7 +52,6 @@ class StationViewSet(
 ):
     queryset = Station.objects.all()
     serializer_class = StationSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
 
@@ -65,7 +63,6 @@ class CrewViewSet(
 ):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
@@ -99,7 +96,6 @@ class RouteViewSet(
         "source", "destination"
     )
     serializer_class = RouteSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
@@ -117,7 +113,6 @@ class TrainViewSet(
 ):
     queryset = Train.objects.select_related("train_type")
     serializer_class = TrainSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
@@ -158,7 +153,6 @@ class TripViewSet(viewsets.ModelViewSet):
         )
     )
     serializer_class = TripSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllORIsAuthenticatedReadOnly,)
 
     def get_queryset(self):
@@ -202,7 +196,6 @@ class OrderViewSet(
     )
     serializer_class = OrderSerializer
     pagination_class = OrderPagination
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
