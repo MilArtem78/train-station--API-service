@@ -1,4 +1,6 @@
 from django.db.models import Count, F, Q
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import mixins, viewsets, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
@@ -128,14 +130,31 @@ class TrainViewSet(
 
     def get_queryset(self):
         queryset = self.queryset
-        name = self.request.query_params.get("name")
         train_type = self.request.query_params.get("train_type")
+        name = self.request.query_params.get("name")
         if train_type:
             train_types_ids = self._params_to_ints(train_type)
             queryset = queryset.filter(train_type__id__in=train_types_ids)
         if name:
             queryset = queryset.filter(name__icontains=name)
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "train_type",
+                type=OpenApiTypes.STR,
+                description="Filter by train_type id (ex. ?train_type=1,2)",
+            ),
+            OpenApiParameter(
+                "name",
+                type=OpenApiTypes.STR,
+                description="Filter by train name (ex. name?=train)"
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class TripViewSet(viewsets.ModelViewSet):
@@ -176,6 +195,26 @@ class TripViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return TripDetailSerializer
         return TripSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "route",
+                type=OpenApiTypes.STR,
+                description="Filter by route (ex. ?route=Lviv)",
+            ),
+            OpenApiParameter(
+                "departure_date",
+                type=OpenApiTypes.DATE,
+                description=(
+                        "Filter by departure_date "
+                        "(ex. ?date=2024-03-26)"
+                ),
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class OrderPagination(PageNumberPagination):
