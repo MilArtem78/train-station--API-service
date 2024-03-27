@@ -80,3 +80,18 @@ class TrainViewSet(
         if self.action == "retrieve":
             return TrainDetailSerializer
         return TrainSerializer
+
+    @staticmethod
+    def _params_to_ints(qs: str):
+        return [int(str_id) for str_id in qs.split(",")]
+
+    def get_queryset(self):
+        queryset = self.queryset
+        name = self.request.query_params.get("name")
+        train_type = self.request.query_params.get("train_type")
+        if train_type:
+            train_types_ids = self._params_to_ints(train_type)
+            queryset = queryset.filter(train_type__id__in=train_types_ids)
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
