@@ -10,7 +10,7 @@ from train_station.models import (
     Train,
     Trip,
     Ticket,
-    Order
+    Order,
 )
 
 
@@ -42,9 +42,7 @@ class RouteSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         data = super(RouteSerializer, self).validate(attrs)
         Route.validate_route(
-            attrs["source"],
-            attrs["destination"],
-            serializers.ValidationError
+            attrs["source"], attrs["destination"], serializers.ValidationError
         )
         return data
 
@@ -54,11 +52,10 @@ class RouteSerializer(serializers.ModelSerializer):
 
 
 class RouteListSerializer(RouteSerializer):
-    source = serializers.SlugRelatedField(
-        read_only=True, slug_field="name"
-    )
+    source = serializers.SlugRelatedField(read_only=True, slug_field="name")
     destination = serializers.SlugRelatedField(
-        read_only=True, slug_field="name"
+        read_only=True,
+        slug_field="name"
     )
 
 
@@ -70,7 +67,8 @@ class TrainSerializer(serializers.ModelSerializer):
 
 class TrainListSerializer(TrainSerializer):
     train_type = serializers.SlugRelatedField(
-        read_only=True, slug_field="name"
+        read_only=True,
+        slug_field="name"
     )
 
     class Meta:
@@ -81,7 +79,8 @@ class TrainListSerializer(TrainSerializer):
             "cargo_num",
             "places_in_cargo",
             "capacity",
-            "train_type")
+            "train_type",
+        )
 
 
 class TrainDetailSerializer(TrainListSerializer):
@@ -100,16 +99,20 @@ class TripListSerializer(TripSerializer):
     )
     route = serializers.StringRelatedField()
     train_name = serializers.CharField(
-        read_only=True, source="train.name"
+        read_only=True,
+        source="train.name"
     )
     train_type = serializers.CharField(
-        read_only=True, source="train.train_type.name"
+        read_only=True,
+        source="train.train_type.name"
     )
     train_cargo_num = serializers.IntegerField(
-        read_only=True, source="train.cargo_num"
+        read_only=True,
+        source="train.cargo_num"
     )
     train_capacity = serializers.IntegerField(
-        read_only=True, source="train.capacity"
+        read_only=True,
+        source="train.capacity"
     )
     tickets_available = serializers.IntegerField(
         read_only=True,
@@ -126,7 +129,7 @@ class TripListSerializer(TripSerializer):
             "train_type",
             "train_cargo_num",
             "train_capacity",
-            "tickets_available"
+            "tickets_available",
         )
 
 
@@ -153,7 +156,7 @@ class TripDetailSerializer(TripSerializer):
             "crew",
             "departure_time",
             "arrival_time",
-            "taken_places"
+            "taken_places",
         )
 
 
@@ -161,10 +164,7 @@ class TicketSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         data = super(TicketSerializer, self).validate(attrs)
         Ticket.validate_ticket(
-            attrs["cargo"],
-            attrs["seat"],
-            attrs["trip"].train,
-            ValidationError
+            attrs["cargo"], attrs["seat"], attrs["trip"].train, ValidationError
         )
         return data
 

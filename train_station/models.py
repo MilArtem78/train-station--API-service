@@ -136,7 +136,7 @@ class Trip(models.Model):
     def __str__(self):
         return (
             f"Trip {self.route.source} - {self.route.destination}, "
-            f" train number — {self.train.name}, "
+            f" train — {self.train.name}, "
             f"[{self.departure_time} - {self.arrival_time}]"
         )
 
@@ -180,10 +180,11 @@ class Ticket(models.Model):
             if not (1 <= ticket_attr_value <= count_attrs):
                 raise error_to_raise(
                     {
-                        ticket_attr_name: f"{ticket_attr_name} "
-                                          f"number must be in available range: "
-                                          f"(1, {train_attr_name}): "
-                                          f"(1, {count_attrs})"
+                        ticket_attr_name:
+                            f"{ticket_attr_name} "
+                            f"number must be in available range: "
+                            f"(1, {train_attr_name}): "
+                            f"(1, {count_attrs})"
                     }
                 )
 

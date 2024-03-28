@@ -166,9 +166,9 @@ class TripViewSet(viewsets.ModelViewSet):
         "crew"
     ).annotate(
         tickets_available=(
-                F("train__cargo_num")
-                * F("train__places_in_cargo")
-                - Count("tickets")
+            F("train__cargo_num")
+            * F("train__places_in_cargo")
+            - Count("tickets")
         )
     )
     serializer_class = TripSerializer
@@ -206,10 +206,9 @@ class TripViewSet(viewsets.ModelViewSet):
             OpenApiParameter(
                 "departure_date",
                 type=OpenApiTypes.DATE,
-                description=(
-                        "Filter by departure_date "
-                        "(ex. ?date=2024-03-26)"
-                ),
+                description=("Filter by departure_date "
+                             "(ex. ?date=2024-03-26)"
+                             ),
             ),
         ]
     )
