@@ -1,3 +1,75 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import (
+    Station,
+    Route,
+    Crew,
+    Train,
+    TrainType,
+    Order,
+    Ticket,
+    Trip,
+)
+
+
+@admin.register(Station)
+class StationAdmin(admin.ModelAdmin):
+    search_fields = ["name"]
+    list_display = ["name", "longitude", "latitude"]
+
+
+@admin.register(Route)
+class RouteAdmin(admin.ModelAdmin):
+    search_fields = ["source__name", "destination__name"]
+    list_display = ["id", "source", "destination", "distance"]
+
+
+@admin.register(TrainType)
+class TrainTypeAdmin(admin.ModelAdmin):
+    search_fields = ["name"]
+
+
+@admin.register(Train)
+class TrainAdmin(admin.ModelAdmin):
+    search_fields = ["name", "train_type__name"]
+    list_filter = ["cargo_num", "places_in_cargo"]
+    list_display = [
+        "name",
+        "cargo_num",
+        "places_in_cargo",
+        "train_type"
+    ]
+
+
+@admin.register(Crew)
+class CrewAdmin(admin.ModelAdmin):
+    search_fields = ["first_name", "last_name"]
+
+
+@admin.register(Trip)
+class TripAdmin(admin.ModelAdmin):
+    search_fields = ["route__source__name"]
+    list_filter = ["train__train_type"]
+    list_display = [
+        "route",
+        "train",
+        "departure_time",
+        "arrival_time"
+    ]
+
+
+class TicketInline(admin.TabularInline):
+    model = Ticket
+    extra = 1
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [TicketInline]
+    search_fields = ["user__email"]
+    list_display = [
+        "user", "created_at"
+    ]
+
+
+admin.site.register(Ticket)
