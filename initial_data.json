@@ -1,0 +1,386 @@
+[
+  {
+    "model": "train_station.station",
+    "pk": 1,
+    "fields": {
+      "name": "Lviv",
+      "latitude": 50.2046322,
+      "longitude": 34.3638533
+    }
+  },
+  {
+    "model": "train_station.station",
+    "pk": 2,
+    "fields": {
+      "name": "Poltava",
+      "latitude": 60.2046322,
+      "longitude": 24.3638533
+    }
+  },
+  {
+    "model": "train_station.station",
+    "pk": 3,
+    "fields": {
+      "name": "Odessa",
+      "latitude": 30.2046322,
+      "longitude": 14.3638533
+    }
+  },
+  {
+    "model": "train_station.route",
+    "pk": 1,
+    "fields": {
+      "source": 1,
+      "destination": 2,
+      "distance": 580
+    }
+  },
+  {
+    "model": "train_station.route",
+    "pk": 2,
+    "fields": {
+      "source": 3,
+      "destination": 1,
+      "distance": 320
+    }
+  },
+  {
+    "model": "train_station.route",
+    "pk": 4,
+    "fields": {
+      "source": 2,
+      "destination": 3,
+      "distance": 410
+    }
+  },
+  {
+    "model": "train_station.route",
+    "pk": 5,
+    "fields": {
+      "source": 1,
+      "destination": 1,
+      "distance": 100
+    }
+  },
+  {
+    "model": "train_station.route",
+    "pk": 6,
+    "fields": {
+      "source": 2,
+      "destination": 2,
+      "distance": 50
+    }
+  },
+  {
+    "model": "train_station.traintype",
+    "pk": 1,
+    "fields": {
+      "name": "EuroNight (EN)",
+      "description": "EuroNight trains are international night trains connecting major cities across Europe."
+    }
+  },
+  {
+    "model": "train_station.traintype",
+    "pk": 2,
+    "fields": {
+      "name": "EuroCity (EC)",
+      "description": "EuroCity trains are high-quality international trains connecting major European cities."
+    }
+  },
+  {
+    "model": "train_station.traintype",
+    "pk": 3,
+    "fields": {
+      "name": "Express InterCity (EIC)",
+      "description": "The Express InterCity trains are a popular choice for domestic travel within Ukraine."
+    }
+  },
+  {
+    "model": "train_station.train",
+    "pk": 1,
+    "fields": {
+      "name": "Train1",
+      "cargo_num": 5,
+      "places_in_cargo": 30,
+      "train_type": 2
+    }
+  },
+  {
+    "model": "train_station.train",
+    "pk": 2,
+    "fields": {
+      "name": "Train2",
+      "cargo_num": 10,
+      "places_in_cargo": 32,
+      "train_type": 1
+    }
+  },
+  {
+    "model": "train_station.crew",
+    "pk": 1,
+    "fields": {
+      "first_name": "Ivan",
+      "last_name": "Pole",
+      "image": "uploads/crews/ivan-pole-5bfb2f20-d6c6-4cf2-ba90-ec56a6368f37.jpg"
+    }
+  },
+  {
+    "model": "train_station.crew",
+    "pk": 2,
+    "fields": {
+      "first_name": "Petro",
+      "last_name": "Dim",
+      "image": ""
+    }
+  },
+  {
+    "model": "train_station.crew",
+    "pk": 3,
+    "fields": {
+      "first_name": "Artur",
+      "last_name": "Lom",
+      "image": ""
+    }
+  },
+  {
+    "model": "train_station.trip",
+    "pk": 1,
+    "fields": {
+      "route": 1,
+      "train": 1,
+      "departure_time": "2024-03-27T14:00:00Z",
+      "arrival_time": "2024-03-28T16:00:00Z",
+      "crew": [
+        3,
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "train_station.trip",
+    "pk": 2,
+    "fields": {
+      "route": 2,
+      "train": 2,
+      "departure_time": "2024-03-26T14:00:00Z",
+      "arrival_time": "2024-03-27T16:00:00Z",
+      "crew": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "train_station.order",
+    "pk": 1,
+    "fields": {
+      "created_at": "2024-03-26T14:37:40.340Z",
+      "user": 1
+    }
+  },
+  {
+    "model": "train_station.order",
+    "pk": 2,
+    "fields": {
+      "created_at": "2024-03-26T14:39:22.883Z",
+      "user": 1
+    }
+  },
+  {
+    "model": "train_station.order",
+    "pk": 3,
+    "fields": {
+      "created_at": "2024-03-27T13:09:08.693Z",
+      "user": 1
+    }
+  },
+  {
+    "model": "train_station.order",
+    "pk": 4,
+    "fields": {
+      "created_at": "2024-03-27T13:11:09.395Z",
+      "user": 1
+    }
+  },
+  {
+    "model": "train_station.order",
+    "pk": 7,
+    "fields": {
+      "created_at": "2024-03-28T12:24:34.489Z",
+      "user": 2
+    }
+  },
+  {
+    "model": "train_station.order",
+    "pk": 8,
+    "fields": {
+      "created_at": "2024-03-28T12:26:02.999Z",
+      "user": 2
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 1,
+    "fields": {
+      "cargo": 1,
+      "seat": 1,
+      "trip": 1,
+      "order": 1
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 2,
+    "fields": {
+      "cargo": 1,
+      "seat": 2,
+      "trip": 1,
+      "order": 1
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 3,
+    "fields": {
+      "cargo": 2,
+      "seat": 2,
+      "trip": 2,
+      "order": 2
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 4,
+    "fields": {
+      "cargo": 2,
+      "seat": 3,
+      "trip": 2,
+      "order": 2
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 5,
+    "fields": {
+      "cargo": 3,
+      "seat": 5,
+      "trip": 2,
+      "order": 2
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 6,
+    "fields": {
+      "cargo": 2,
+      "seat": 1,
+      "trip": 1,
+      "order": 3
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 7,
+    "fields": {
+      "cargo": 2,
+      "seat": 2,
+      "trip": 1,
+      "order": 3
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 8,
+    "fields": {
+      "cargo": 3,
+      "seat": 1,
+      "trip": 1,
+      "order": 4
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 9,
+    "fields": {
+      "cargo": 3,
+      "seat": 2,
+      "trip": 1,
+      "order": 4
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 10,
+    "fields": {
+      "cargo": 5,
+      "seat": 1,
+      "trip": 2,
+      "order": 7
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 11,
+    "fields": {
+      "cargo": 5,
+      "seat": 2,
+      "trip": 2,
+      "order": 7
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 12,
+    "fields": {
+      "cargo": 4,
+      "seat": 1,
+      "trip": 1,
+      "order": 8
+    }
+  },
+  {
+    "model": "train_station.ticket",
+    "pk": 13,
+    "fields": {
+      "cargo": 4,
+      "seat": 2,
+      "trip": 1,
+      "order": 8
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$GS9DtCD5JwlHfYX5sNwCPS$fqE3Cz9q51DaA3fMd0CxI9HBLULOZ4Rk/m+Csq4qsyo=",
+      "last_login": "2024-03-28T16:20:35.921Z",
+      "is_superuser": true,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-03-26T14:11:03.408Z",
+      "email": "admin_test@gmail.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$WPmLV08aUbhzppa4Kt8KqJ$WfhZBbWq7d78j48hmBpTdw5/5PldDH1jsNdOV8BWdAk=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-03-27T17:02:37.896Z",
+      "email": "user_test@gmail.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
