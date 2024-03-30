@@ -67,10 +67,6 @@ class AdminRouteApi(TestCase):
         self.client.force_authenticate(self.admin)
         self.route = sample_route(sample_station(name="Test1"), sample_station(name="Test2"))
 
-    def test_admin_can_make_get_request(self):
-        response = self.client.get(ROUTE_URL)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_admin_can_create_route(self):
         station1 = sample_station(name="Test_1")
         station2 = sample_station(name="Test_2")

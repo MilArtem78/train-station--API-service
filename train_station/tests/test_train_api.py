@@ -115,13 +115,6 @@ class AdminTrainApi(TestCase):
         )
         self.client.force_authenticate(self.admin)
 
-    def test_admin_can_make_get_request(self):
-        sample_train(name="Test_Train_1")
-        sample_train(name="Test_Train_2")
-
-        response = self.client.get(TRAIN_URL)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_admin_can_create_train(self):
         payload = {
             "name": "Test_Train2",

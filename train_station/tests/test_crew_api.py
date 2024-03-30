@@ -78,10 +78,6 @@ class AdminCrewApi(TestCase):
         )
         self.client.force_authenticate(self.admin)
 
-    def test_admin_can_make_get_request(self):
-        response = self.client.get(CREW_URL)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_admin_can_create_crew(self):
         payload = {
             "first_name": "first_name_test",

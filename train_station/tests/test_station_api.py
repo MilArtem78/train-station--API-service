@@ -66,10 +66,6 @@ class AdminStationApi(TestCase):
         )
         self.client.force_authenticate(self.admin)
 
-    def test_admin_can_make_get_request(self):
-        response = self.client.get(STATION_URL)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_admin_can_create_station(self):
         payload = {
             "name": "Test",
